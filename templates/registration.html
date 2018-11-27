@@ -1,0 +1,31 @@
+{% extends 'index.html'%}
+
+
+{% block form%}
+<div class="auth-form reg-form">
+    <div class="auth">
+        <a href="{% url 'auth' %}">
+            Sign in
+        </a>
+        <a href="{% url 'reg' %}">
+            Sign UP
+        </a>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="name">Name</label>
+        <input type="text" name="username" id="name">
+
+        <label for="surname">Surname</label>
+        <input type="text" id="surname">
+
+        <label for="email">Email</label>
+        <input type="email" name="username" id="email">
+
+        <label for="pwd">Password</label>
+        <input type="password" id="pwd">
+        {{ form.as_p }}
+        <input type="submit" value="Sign Up" class="btn">
+    </form>
+</div>
+{% endblock %}

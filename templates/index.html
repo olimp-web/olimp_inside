@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Olimp</title>
+</head>
+<body>
+    <div class="backg">
+        {% block form%}
+        <div class="auth-form">
+            <div class="auth">
+                <a href="{% url 'auth' %}">
+                    Sign in
+                </a>
+                <a href="{% url 'reg' %}">
+                    Sign UP
+                </a>
+            </div>
+            <form action="" method="post">
+                    {% csrf_token%}
+                    <label for="name">Username</label>
+                    <input type="email" name="username" id="name">
+
+                    <label for="pwd">Password</label>
+                    <input type="password" id="pwd">
+                    <div class="check">
+                        <input type="checkbox" id="rememder">
+                        <label for="rememder">Keep me Signed in</label>
+                    </div>
+
+                    <input type="submit" value="Sign in" class="btn">
+            </form>
+        </div>
+        {% endblock%}
+    </div>
+</body>
+</html>
