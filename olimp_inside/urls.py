@@ -18,10 +18,16 @@ from django.urls import path
 from django.conf.urls import include, url
 from django.conf import settings
 
+from . import views
+
+
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 urlpatterns = [
+    url(r'^gate/', include('accounts.urls')),
     path('admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls')),
-    url('auth/', include('accounts.urls')),
+    url(r'people-inside/', include('accounts.urls')),
+    url(r'status/', include('accounts.urls')),
+    # url('auth/', include('accounts.urls')),
 ]
