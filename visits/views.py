@@ -49,8 +49,12 @@ def close(request):
             .latest('entrance_to_olimp')
         latest_visit.last_visit = timezone.now()
         latest_visit.save(update_fields=['last_visit'])
+
+        current_user.in_olimp = False
+        current_user.save()
+
     except Visit.DoesNotExist:
-        _error = "Данные о ващем входе не найдены."
+        _error = "Данные о вашем входе не найдены."
         #
         # _u = Visit.objects.filter(user=user_in_olimp).latest('entrance_to_olimp')
         # _u_exit = Visit.objects.filter(user=user_in_olimp).latest('last_visit')
