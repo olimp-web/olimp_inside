@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="background-login">
+        {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+            {% else %}
+            <p>Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
+        <div class="auth-form">
+            <div class="auth">
+                <a href="">
+                    Sign in
+                </a>
+                <a href="">
+                    Sign UP
+                </a>
+            </div>
+            <form action="{% url 'login'%}?next={{ next }}" method="post">
+                {% csrf_token%}
+                <label for="username">Username</label>
+                <!--<input type="email" name="username" id="name" value="{{ form.username.value|default_if_none:"" }}">-->
+                {{ form.username }}
+                <label for="pwd">Password</label>
+                <!--<input type="password" id="pwd" value="{{ form.password.value|default_if_none:"" }}">-->
+                {{ form.password }}
+                <div class="check">
+                    {# Assumes you setup the password_reset view in your URLconf #}
+                    <p>
+                        <a href="{% url 'password_reset' %}">Lost password?</a>
+                        <a href="{% url 'visits:status' %}" class="pl-5">Check status</a>
+                    </p>
+                </div>
+                <input type="submit" value="Sign in" class="btn" value="{{ next }}">
+            </form>
+        </div>
+    </section>
+{% endblock %}

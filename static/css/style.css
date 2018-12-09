@@ -1,0 +1,102 @@
+.background-login {
+    background: url("/static/img/background_login.jpg") no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+}
+
+.auth-form {
+    top: 50%;
+	left: 50%;
+	max-width:inherit 350px;
+	max-height: 350px;
+	position: absolute;
+	margin-top: -175px;
+	margin-left: -175px;
+    background: rgba(0,0,0, 0.45);
+}
+
+.auth-form form{
+    margin: 0 25px;
+    flex-direction: column;
+    width: 300px;
+}
+
+.auth-form>form>input {
+    width: 100%;
+    border-radius: 30px;
+    height: 35px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border: none;
+    text-align: center;
+}
+
+.auth-form>form>input:hover {
+    box-shadow: 0 0 20px rgba(255,255,255,0.8);
+}
+
+.auth-form>form>label {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.auth-form form label:first-child {
+    margin-top: 15px;
+}
+
+.check {
+    color: #fff;
+    margin-bottom: 20px;
+    vertical-align: baseline;
+}
+
+.check>input {
+    height: 17px;
+    width: 17px;
+    background: rgba(0,0,0,0.5);
+    margin-right: 7px;
+    margin-top: 20px;
+    outline:none;
+}
+
+:active, :hover, :focus {
+    outline: 0;
+    outline-offset: 0;
+}
+
+.auth {
+    margin-top: 20px;
+    margin: 0 25px;
+    padding-top: 20px;
+}
+
+.auth>a {
+    text-decoration: none;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.auth>a:hover {
+    border-bottom: 4px solid #fff;
+}
+
+.btn:hover {
+    box-shadow: 0 0 20px rgba(255,255,255,0.8);
+}
+
+.reg-form {
+    top: 50%;
+	left: 50%;
+	max-width:inherit 350px;
+	max-height: 450px;
+	position: absolute;
+	margin-top: -225px;
+	margin-left: -175px;
+    background: rgba(0,0,0, 0.45);
+}

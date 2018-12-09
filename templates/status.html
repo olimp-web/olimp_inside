@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center mt-4 mb-4">Status of having people in Olimp: </h1>
+        <div class="text-center">
+            {% if flag %}
+                <img src="/static/img/check_mark.png" alt="check_mark" class="mb-3">
+            {% else %}
+                <img src="/static/img/red_ban.jpg" alt="red_ban" class="mb-3">
+            {% endif %}
+        </div>
+        <div class="text-center">
+        <a href="{% url 'visits:people_inside' %}" class="text-center btn btn-light">Go to the list of people in Olimp</a>
+        </div>
+
+    </div>
+{% endblock %}
