@@ -130,7 +130,6 @@ class UserAccount(BaseAccount):
     def last_entrance(self):
         return self.visits.last_visit
 
-
     def entrance(self):
         list_report = self.visits.values()
         return list_report[len(list_report)-1]['entrance_to_olimp']
@@ -152,7 +151,7 @@ class Profile(models.Model):
         verbose_name_plural = "профили"
 
 
-class UserInOlimp(models.Model):
-    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='visits')
-    entrance_to_olimp = models.DateTimeField(null=True)
-    last_visit = models.DateTimeField(null=True)
+# class UserInOlimp(models.Model):
+#     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='visits')
+#     entrance_to_olimp = models.DateTimeField(null=True)
+#     last_visit = models.DateTimeField(null=True)

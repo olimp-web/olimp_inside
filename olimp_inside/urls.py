@@ -24,10 +24,10 @@ from . import views
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 urlpatterns = [
-    url(r'^gate/', include('accounts.urls')),
+    url(r'^gates/', include('visits.urls', 'visits')),
     path('admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls')),
-    url(r'people-inside/', include('accounts.urls')),
-    url(r'status/', include('accounts.urls'), name="satatus"),
+    # url(r'people-inside/', include('accounts.urls')),
+    # url(r'status/', include('accounts.urls'), name="satatus"),
     # url('auth/', include('accounts.urls')),
 ]

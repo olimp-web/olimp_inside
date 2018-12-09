@@ -7,16 +7,16 @@
                     Availability in Olympus
                 </button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a href="{% url 'open_Olimp' %}" class="dropdown-item">Entrance in Olimp</a>
-                    <a href="{% url 'close_Olimp' %}" class="dropdown-item ">Get out of Olimp</a>
+                    <a href="{% url 'visits:open' %}" class="dropdown-item">Entrance in Olimp</a>
+                    <a href="{% url 'visits:close' %}" class="dropdown-item ">Get out of Olimp</a>
                 </div>
             </div>
-            <a href="{% url 'status' %}" class="btn btn-success">Status</a>
+            <a href="{% url 'visits:status' %}" class="btn btn-success">Status</a>
             <a href="{% url 'logout'%}" class="btn btn-danger">Log out</a>
         </div>
-        {%if message%}
+        {%if error %}
                         <div class="alert alert-danger" role="alert">
-                            You need entrance!
+                            {{ error }}
                         </div>
                     {% endif %}
         <div class="row">

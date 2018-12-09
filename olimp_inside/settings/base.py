@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import environ
 
+from django.urls.base import reverse_lazy
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts',
+    'visits'
 ]
 
 MIDDLEWARE = [
@@ -129,4 +132,4 @@ STATICFILES_DIRS = [
 ADMIN_SITE_HEADER = "OLIMP"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-LOGIN_REDIRECT_URL = '/people-inside/'
+LOGIN_REDIRECT_URL = reverse_lazy('visits:people_inside')
