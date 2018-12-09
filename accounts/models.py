@@ -128,11 +128,12 @@ class UserAccount(BaseAccount):
     in_olimp = models.BooleanField(default=False)
 
     def last_entrance(self):
-        return self.visits.latest('last_visit')
+        return self.visits.last_visit
 
 
     def entrance(self):
-        return self.visits.latest('entrance_to_olimp')
+        list_report = self.visits.values()
+        return list_report[len(list_report)-1]['entrance_to_olimp']
 
     class Meta(BaseAccount.Meta):
         swappable = 'AUTH_USER_MODEL'

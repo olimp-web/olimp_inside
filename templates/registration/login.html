@@ -2,7 +2,6 @@
 
 {% block content %}
     <section class="background-login">
-d
         {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
         {% endif %}
@@ -24,7 +23,7 @@ d
                     Sign UP
                 </a>
             </div>
-            <form action="{% url 'login'%} " method="post">
+            <form action="{% url 'login'%}?next=people-inside " method="post">
                 {% csrf_token%}
                 <label for="username">Username</label>
                 <!--<input type="email" name="username" id="name" value="{{ form.username.value|default_if_none:"" }}">-->

@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
+
 from .utils import *
 
 from .models import UserInOlimp, UserAccount, models
@@ -10,11 +12,7 @@ from .models import UserInOlimp, UserAccount, models
 
 @login_required
 def peopleInside(request):
-    # users = UserInOlimp.objects.all()
     users = UserAccount.objects.filter(in_olimp=True)
-    # .select_related('UserInOlimp')
-    # users = UserAccount.objects.filter(entrance_to_olimp=timezone.now()).select_related('UserInOlimp')
-    # print(dict(users))
     return render(request, 'index.html', context={'users': users})
 
 
