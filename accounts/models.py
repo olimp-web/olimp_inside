@@ -108,6 +108,7 @@ class BaseAccount(AbstractBaseUser, PermissionsMixin):
         else:
             full_name = "-empty-"
         return full_name.strip()
+    get_full_name.short_description = 'ФИО'
 
     def get_short_name(self):
         """Return the short name for the user."""
@@ -125,15 +126,6 @@ class BaseAccount(AbstractBaseUser, PermissionsMixin):
 
 
 class UserAccount(BaseAccount):
-    in_olimp = models.BooleanField(default=False)
-
-    def last_entrance(self):
-        return self.visits.last_visit
-
-    def entrance(self):
-        list_report = self.visits.values()
-        return list_report[len(list_report)-1]['entrance_to_olimp']
-
     class Meta(BaseAccount.Meta):
         swappable = 'AUTH_USER_MODEL'
 
@@ -149,9 +141,3 @@ class Profile(models.Model):
     class Meta:
         verbose_name = "профиль"
         verbose_name_plural = "профили"
-
-
-# class UserInOlimp(models.Model):
-#     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name='visits')
-#     entrance_to_olimp = models.DateTimeField(null=True)
-#     last_visit = models.DateTimeField(null=True)

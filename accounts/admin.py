@@ -18,7 +18,7 @@ class UserAdmin(UserAdmin):
     list_display = ['username', 'email', 'get_full_name']
     search_fields = ['username', 'email', 'patronymic', 'name', 'surname']
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('username', 'email', 'password')}),
         # (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
