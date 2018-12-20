@@ -1,17 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
-from accounts.models import UserAccount
-from .models import Visit
-
-# Create your views here.
+from .models import Visit, UserInOlimp
 
 
 @login_required
 def people_inside(request):
-    users = UserAccount.objects.filter(in_olimp=True)
-    return render(request, 'index.html', context={'users': users})
+    users = UserInOlimp.objects.inside_now()
+    return render(request, 'visits/index.html', context={'users': users})
 
 
 @login_required
@@ -21,20 +18,14 @@ def open(request):
     try:
         # Проверка наличия "незавершенного посещения"
         latest_visit = Visit.objects\
-            .filter(user=current_user, entrance_to_olimp__isnull=True)\
-            .latest('entrance_to_olimp')
-        latest_visit.entrance_to_olimp = timezone.now()
-        latest_visit.save(update_fields=['entrance_to_olimp'])
+            .filter(user=current_user, enter_timestamp__isnull=True)\
+            .latest('enter_timestamp')
+        latest_visit.enter_timestamp = timezone.now()
+        latest_visit.save(update_fields=['enter_timestamp'])
     except Visit.DoesNotExist:
-        Visit.objects.create(user=request.user, entrance_to_olimp=timezone.now())
+        Visit.objects.create(user=request.user, enter_timestamp=timezone.now())
 
-    # mark User as indor
-    current_user.in_olimp = True
-    current_user.save()
-
-    users = UserAccount.objects.filter(in_olimp=True)
-
-    return render(request, 'index.html', context={'users': users})
+    return redirect("visits:people_inside")
 
 
 @login_required
@@ -45,33 +36,15 @@ def close(request):
     try:
         # Проверка наличия "незавершенного посещения"
         latest_visit = Visit.objects \
-            .filter(user=current_user, last_visit__isnull=True) \
-            .latest('entrance_to_olimp')
-        latest_visit.last_visit = timezone.now()
-        latest_visit.save(update_fields=['last_visit'])
-
-        current_user.in_olimp = False
-        current_user.save()
-
+            .filter(user=current_user, leave_timestamp__isnull=True) \
+            .latest('enter_timestamp')
+        latest_visit.leave_timestamp = timezone.now()
+        latest_visit.save(update_fields=['leave_timestamp'])
     except Visit.DoesNotExist:
         _error = "Данные о вашем входе не найдены."
-        #
-        # _u = Visit.objects.filter(user=user_in_olimp).latest('entrance_to_olimp')
-        # _u_exit = Visit.objects.filter(user=user_in_olimp).latest('last_visit')
-        # if _u is None or _u_exit is not None:
-        #     raise models.ObjectDoesNotExist
-        # _u.update.last_visit = datetime.datetime.now()
-        # _u.save(update_fields=['last_visit'])
-        # message = False
-
-    # except models.ObjectDoesNotExist:
-    #     message = True
-
-    users = UserAccount.objects.filter(in_olimp=True)
-        # .prefetch_related('visits')
-    return render(request, 'index.html', context={'users': users, 'error': _error})
+    return redirect("visits:people_inside")
 
 
 def status(request):
-    count_user = UserAccount.objects.filter(in_olimp=True).exists()
-    return render(request, 'status.html', context={'flag': bool(count_user)})
+    count_user = UserInOlimp.objects.inside_now().exists()
+    return render(request, 'visits/status.html', context={'flag': bool(count_user)})

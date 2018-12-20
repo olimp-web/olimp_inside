@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content%}
+    <div class="container">
+        <div class="text-right mt-3 mb-5">
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Availability in Olympus
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a href="{% url 'visits:open' %}" class="dropdown-item">Entrance in Olimp</a>
+                    <a href="{% url 'visits:close' %}" class="dropdown-item ">Get out of Olimp</a>
+                </div>
+            </div>
+            <a href="{% url 'visits:status' %}" class="btn btn-success">Status</a>
+            <a href="{% url 'logout'%}" class="btn btn-danger">Log out</a>
+        </div>
+
+        {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+        {% endif %}
+
+        <div class="list-group col-6">
+            {% for user in users %}
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{{ user.get_full_name }}</h5>
+                      <small>В лаборатории с {{ user.last_entrance }}</small>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+{#        <div class="row">#}
+{#            {% for user in users %}#}
+{#                <div class="col-6 ">#}
+{#                    <div class="card m-1">#}
+{#                        <div class="card-header">#}
+{#                            <span>{{user.get_full_name}}</span>#}
+{#                        </div>#}
+{#                        <div class="card-body">#}
+{#                            <h5 class="card-title"></h5>#}
+{#                            <p class="card-text">body</p>#}
+{#                            <p>Last entrance: <span>#}
+{#                                {{user.last_entrance}}#}
+{#                            </span></p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#            {% endfor %}#}
+{#        </div>#}
+    </div>
+{% endblock%}
