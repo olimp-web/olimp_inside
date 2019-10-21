@@ -18,6 +18,8 @@ from django.urls import path
 from django.conf.urls import include, url
 from django.conf import settings
 
+from api_core.urls import api_router
+
 from . import views
 
 
@@ -30,4 +32,5 @@ urlpatterns = [
     # url(r'people-inside/', include('accounts.urls')),
     # url(r'status/', include('accounts.urls'), name="satatus"),
     # url('auth/', include('accounts.urls')),
+    path('api/', include('api_core.urls', namespace='API'))
 ]
