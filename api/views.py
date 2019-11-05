@@ -37,6 +37,7 @@ class ApiCreateView(APIView):
         # serializer = API_Serializer(data)
 
         # TODO: Возвращать мак адрес конктретного пользователя
+        print(MacModelUser.objects.filter(user=request.user).values())
         return Response({"Response": MacModelUser.objects.all().values()})
 
     def post(self, request):
@@ -45,7 +46,7 @@ class ApiCreateView(APIView):
         if not bool(re.match(MAC_PATTERN, data)):
             raise CustomAPIException({"error": "MAC address not found"}, status_code=status.HTTP_404_NOT_FOUND)
 
-        serializer = API_Serializer(data={"mac_address": data})
+        serializer = API_Serializer(data={"mac_address": data, "user_id": request.user.id})
         if serializer.is_valid(raise_exception=True):
             serializer.save()
 
@@ -61,25 +62,20 @@ class ApiInput(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        user = request.user;
+        # user = request.user;
         # if request.user.is_authenticated:
         #     user = request.user.username;
-        return Response({"User": 1})
+        return Response({"User": request.user.username})
 
     def post(self, request):
-        if request.user.is_authenticated:
-            return Response("user is not defined you need to login.")
-
         data = request.data.get('mac_address')
-        # TODO: Добавить в проверку идентификацию пользователя для явного определения
-
-        mac_address = MacModelUser.objects.get(mac_address=data)
+        mac_address = MacModelUser.objects.get(mac_address=data, user=request.user)
         if not bool(re.match(MAC_PATTERN, data)) or not mac_address:
             raise CustomAPIException({"error": "MAC address not found"}, status_code=status.HTTP_404_NOT_FOUND)
 
         try:
             latest_visit = Visit.objects \
-                .filter(user=request.user, enter_timestamp__isnull=False) \
+                .filter(user=request.user, enter_timestamp__isnull=True) \
                 .latest('enter_timestamp')
             latest_visit.enter_timestamp = timezone.now()
             latest_visit.save(update_fields=['enter_timestamp'])
@@ -96,12 +92,8 @@ class OutputApi(APIView):
         return Response({"User": request.user.username})
 
     def post(self, request):
-        # if request.user.is_authenticated:
-        #     return Response("user is not defined you need to login.")
-
         data = request.data.get('mac_address')
-        print(data)
-        mac_address = MacModelUser.objects.get(mac_address=data);
+        mac_address = MacModelUser.objects.get(mac_address=data, user=request.user)
         if not bool(re.match(MAC_PATTERN, data)) or not mac_address:
             raise CustomAPIException({"error": "MAC address not found"}, status_code=status.HTTP_404_NOT_FOUND)
 

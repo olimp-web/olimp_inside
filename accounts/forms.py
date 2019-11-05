@@ -32,6 +32,7 @@ class FormRegister(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+        # profile =
         if commit:
             prof = Profile.objects.create(
                 surname      = self.cleaned_data['surname'],
