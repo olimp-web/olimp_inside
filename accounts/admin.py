@@ -2,7 +2,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext, gettext_lazy as _
+from django.shortcuts import render
+
 from .models import UserAccount, Profile
+
 
 # Register your models here.
 
@@ -38,3 +41,8 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ['surname', 'name', 'patronymic', 'phone_number']
 
     search_fields = ['patronymic', 'name', 'surname']
+
+    def print_doc(self, request, queryset):
+        return render(request, 'documents/over_time.html', context={
+            "profiles": queryset
+        })

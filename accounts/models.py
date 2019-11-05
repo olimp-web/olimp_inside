@@ -137,6 +137,7 @@ class Profile(models.Model):
     dob = models.DateField(null=True, blank=True, verbose_name="дата рождения")
     vk_link = models.URLField(verbose_name="профиль вконтакте", blank=True, default="")
     phone_number = models.CharField(max_length=12, verbose_name="номер телефона")
+    identify_data = models.CharField(max_length=11, verbose_name="Паспортные данные", blank=True)
 
     class Meta:
         verbose_name = "профиль"
