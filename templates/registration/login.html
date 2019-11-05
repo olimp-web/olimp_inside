@@ -24,7 +24,7 @@
                 </a>
             </div>
             <form action="{% url 'login'%}?next={{ next }}" method="post">
-                {% csrf_token%}
+                {% csrf_token %}
                 <label for="username">Username</label>
                 <!--<input type="email" name="username" id="name" value="{{ form.username.value|default_if_none:"" }}">-->
                 {{ form.username }}
