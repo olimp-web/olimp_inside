@@ -9,4 +9,7 @@ urlpatterns = [
 
     url(r'input_by_mac_addr/', ApiInput.as_view()),
     url(r'output_by_mac_addr/', OutputApi.as_view()),
+    url(r'paginate/', PaginationApiView.as_view()),
+    url(r'paginate1/', PagApiView.as_view()),
+    url(r'paginate2/', PApiView.as_view()),
 ]

@@ -9,79 +9,55 @@
             <div class="col-6">
                 {{ form.username.label }}
                 {{ form.username }}
+                {{ form.username.errors }}
             </div>
             <div class="col-6">
                 {{ form.surname.label }}
                 {{ form.surname }}
+                {{ form.surname.errors }}
             </div>
             <div class="col-6">
                 {{ form.email.label }}
                 {{ form.email }}
+                {{ form.email.errors }}
             </div>
             <div class="col-6">
                 {{ form.name.label }}
                 {{ form.name }}
+                {{ form.name.errors }}
             </div>
             <div class="col-6">
                 {{ form.password1.label }}
                 {{ form.password1 }}
-            </div><div class="col-6">
+                {{ form.password1.errors }}
+            </div>
+            <div class="col-6">
                 {{ form.patronymic.label }}
                 {{ form.patronymic }}
+                {{ form.patronymic.errors }}
             </div>
             <div class="col-6">
                 {{ form.password2.label }}
                 {{ form.password2 }}
+                {{ form.password2.errors }}
             </div>
             <div class="col-6">
                 {{ form.dob.label }}
                 {{ form.dob }}
+                {{ form.dob.errors }}
             </div>
             <div class="col-6">
                 {{ form.vk_link.label }}
                 {{ form.vk_link }}
+                {{ form.vk_link.errors }}
             </div>
             <div class="col-6">
                 {{ form.phone_number.label }}
                 {{ form.phone_number }}
+                {{ form.phone_number.errors }}
             </div>
-            {% for field in form %}
-            <div class="form-group col-6">
-
-            </div>
-            {% endfor %}
         </div>
-        <input type="submit" class="btn btn-primary" value="Зарегистрироваться">
+        <input type="submit" class="btn btn-primary mt-3" value="Зарегистрироваться">
     </form>
 </div>
-{% endblock %}
-
-{% block form1 %}
-<!--<div class="auth-form reg-form">-->
-<!--    <div class="auth">-->
-<!--        <a href="{% url 'auth' %}">-->
-<!--            Sign in-->
-<!--        </a>-->
-<!--        <a href="{% url 'reg' %}">-->
-<!--            Sign UP-->
-<!--        </a>-->
-<!--    </div>-->
-<!--    <form action="" method="post">-->
-<!--        {% csrf_token %}-->
-<!--        <label for="name">Name</label>-->
-<!--        <input type="text" name="username" id="name">-->
-
-<!--        <label for="surname">Surname</label>-->
-<!--        <input type="text" id="surname">-->
-
-<!--        <label for="email">Email</label>-->
-<!--        <input type="email" name="username" id="email">-->
-
-<!--        <label for="pwd">Password</label>-->
-<!--        <input type="password" id="pwd">-->
-<!--        {{ form.as_p }}-->
-<!--        <input type="submit" value="Sign Up" class="btn">-->
-<!--    </form>-->
-<!--</div>-->
-
 {% endblock %}

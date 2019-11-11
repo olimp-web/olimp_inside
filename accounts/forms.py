@@ -13,9 +13,13 @@ class FormRegister(UserCreationForm):
     vk_link = forms.URLField(required=False, label="ссылка vk:")
     phone_number = forms.CharField(max_length=12, label="Номер телефона:")
 
+
     # Стилизация формы
     def __init__(self, *args, **kwargs):
         super(FormRegister, self).__init__(*args, **kwargs)
+
+        # for item in self.fields:
+        #     self.fields[item].widget = forms.TextInput(attrs={'class':'form-control'})
 
         self.fields['username'].widget = forms.TextInput(attrs={'class': 'form-control',})
         self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'form-control', })

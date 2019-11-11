@@ -16,17 +16,17 @@ def reg(request):
     return render(request, 'registration.html')
 
 
-class RegistrationUserFormView(FormView):
+class RegistrationFormView(FormView):
     form_class = FormRegister
     success_url = '/gates/'
     template_name = 'registration.html'
 
     def form_valid(self, form):
         form.save()
-        return super(RegistrationUserFormView, self).form_valid(form)
+        return super(RegistrationFormView, self).form_valid(form)
 
     def form_invalid(self, form):
-        return super(RegistrationUserFormView, self).form_invalid(form)
+        return super(RegistrationFormView, self).form_invalid(form)
 
 # class RegistrationUser(ObjectRegistrUserMixin, View)
 
