@@ -142,3 +142,17 @@ class Profile(models.Model):
     class Meta:
         verbose_name = "профиль"
         verbose_name_plural = "профили"
+
+    def __str__(self):
+        return f"{self.surname} {self.name} {self.patronymic}"
+
+
+class ServiceDocument(models.Model):
+    date = models.DateField(verbose_name="дата", help_text="Дата посещения")
+    created_at = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
+    printed_at = models.DateTimeField(verbose_name="Дата печати", blank=True, null=True)
+    guests = models.ManyToManyField('Profile', verbose_name='гости')
+
+    class Meta:
+        verbose_name = "служебная записка"
+        verbose_name_plural = "служебные записки"

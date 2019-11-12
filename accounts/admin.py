@@ -2,9 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext, gettext_lazy as _
+from django_object_actions import DjangoObjectActions
+from django.utils import timezone
 from django.shortcuts import render
 
-from .models import UserAccount, Profile
+from .models import UserAccount, Profile, ServiceDocument
 
 
 # Register your models here.
@@ -41,8 +43,24 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ['surname', 'name', 'patronymic', 'phone_number']
 
     search_fields = ['patronymic', 'name', 'surname']
+    #
+    # def print_doc(self, request, queryset):
+    #     return render(request, 'documents/over_time.html', context={
+    #         "profiles": queryset
+    #     })
 
-    def print_doc(self, request, queryset):
-        return render(request, 'documents/over_time.html', context={
-            "profiles": queryset
-        })
+
+@admin.register(ServiceDocument)
+class ServiceDocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
+    list_display = ('id', 'date', 'created_at', 'printed_at')
+    list_display_links = ('date', )
+    readonly_fields = ('printed_at', 'created_at')
+
+    def print_page(self, request, obj):
+        obj.printed_at = timezone.now()
+        obj.save()
+        return render(request, template_name='documents/over_time.html', context={"doc": obj})
+    print_page.short_description = "печать документа"
+    print_page.label = "Печать"
+
+    change_actions = ('print_page', )
