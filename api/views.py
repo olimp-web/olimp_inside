@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import MacModelUser
-from api.serializers import API_Serializer
+from api.serializers import API_Serializer, VisitSerializer, VisitDataSerializer
 from visits.models import Visit
 from django.utils import timezone
 from rest_framework.pagination import (
@@ -56,7 +56,7 @@ class ApiInput(APIView):
 
         try:
             mac_address = MacModelUser.objects.get(mac_address=data)
-            if not bool(re.match(MAC_PATTERN, data)) or not mac_address.user:
+            if not bool(re.match(MAC_PATTERN, data)):
                 raise
         except:
             content = {'error': "Mac address not found"}
@@ -64,14 +64,16 @@ class ApiInput(APIView):
 
         try:
             latest_visit = Visit.objects \
-                .filter(user=request.user, enter_timestamp__isnull=True) \
+                .filter(user=mac_address.user, enter_timestamp__isnull=True) \
                 .latest('enter_timestamp')
-            latest_visit.enter_timestamp = timezone.now()
-            latest_visit.save(update_fields=['enter_timestamp'])
+            if latest_visit.enter_timestamp:
+                return Response({"User in Olimp": mac_address.user.username})
+            # latest_visit.enter_timestamp = timezone.now()
+            # latest_visit.save(update_fields=['enter_timestamp'])
         except Visit.DoesNotExist:
-            Visit.objects.create(user=request.user, enter_timestamp=timezone.now())
+            Visit.objects.create(user=mac_address.user, enter_timestamp=timezone.now())
 
-        return Response({"User in Olimp": request.user.username})
+        return Response({"User in Olimp": mac_address.user.username})
 
 
 class OutputApi(APIView):
@@ -85,7 +87,7 @@ class OutputApi(APIView):
 
         try:
             mac_address = MacModelUser.objects.get(mac_address=data)
-            if not bool(re.match(MAC_PATTERN, data)) or not mac_address.user:
+            if not bool(re.match(MAC_PATTERN, data)):
                 raise
         except:
             content = {'error': "Mac address not found"}
@@ -93,7 +95,7 @@ class OutputApi(APIView):
 
         try:
             latest_visit = Visit.objects \
-                .filter(user=request.user, leave_timestamp__isnull=True) \
+                .filter(user=mac_address.user, leave_timestamp__isnull=True) \
                 .latest('enter_timestamp')
             latest_visit.leave_timestamp = timezone.now()
             latest_visit.save(update_fields=['leave_timestamp'])
@@ -101,7 +103,7 @@ class OutputApi(APIView):
             content = {'error': "Mac address not found"}
             return Response(content, status=status.HTTP_404_NOT_FOUND)
 
-        return Response({"User logged out": request.user.username})
+        return Response({"User logged out": mac_address.user.username})
 
         # data_admin
         # test_1@test.ru
@@ -152,6 +154,6 @@ class MyPagination(LimitOffsetPagination):
 
 
 class PApiView(ListAPIView):
-    serializer_class = API_Serializer
+    serializer_class = VisitDataSerializer
     pagination_class = MyPagination
-    queryset = MacModelUser.objects.all()
+    queryset = Visit.objects.all()
