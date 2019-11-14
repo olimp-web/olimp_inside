@@ -9,8 +9,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
 from .forms import FormRegister
 
-from .utils import *
-
 
 def reg(request):
     return render(request, 'registration.html')
