@@ -45,7 +45,7 @@ class ApiCreateView(APIView):
         return Response({"Visit": {"mac_address": data}})
 
 
-class ApiInput(APIView):
+class InputByMACView(APIView):
     # permission_classes = (IsAuthenticated,)
 
     def get(self, request):
@@ -76,7 +76,7 @@ class ApiInput(APIView):
         return Response({"User in Olimp": mac_address.user.username})
 
 
-class OutputApi(APIView):
+class OutputByMACView(APIView):
     # permission_classes = (IsAuthenticated,)
 
     def get(self, request):
@@ -111,49 +111,13 @@ class OutputApi(APIView):
         # Pa$$w0rd
 
 
-# version 1
-class CustomPagination(PageNumberPagination):
-    page_size = 1
-    page_size_query_param = 'page_size'
-    max_page_size = 1000
-
-    def get_paginated_response(self, data):
-        return Response({
-            'links': {
-                'next': self.get_next_link(),
-                'previous': self.get_previous_link()
-            },
-            'count': self.page.paginator.count,
-            'page_size': self.page_size,
-            'results': data
-        })
-
-
-class PaginationApiView(ListAPIView):
-    serializer_class = API_Serializer
-    pagination_class = CustomPagination
-    queryset = MacModelUser.objects.all()
-
-
-# version 2
-class PagApiView(APIView, LimitOffsetPagination):
-    default_limit = 10
-    max_limit = 1000
-
-    def get(self, request):
-        event = MacModelUser.objects.all()
-        results = self.paginate_queryset(event, request, view=self)
-        serializer = API_Serializer(results, many=True)
-        return self.get_paginated_response(serializer.data)
-
-
-# version 3
 class MyPagination(LimitOffsetPagination):
     max_limit = 1000
     default_limit = 1
 
 
-class PApiView(ListAPIView):
+class VisitList(ListAPIView):
     serializer_class = VisitDataSerializer
     pagination_class = MyPagination
     queryset = Visit.objects.all()
+    #  TODO 1: Add filter by user and Date range

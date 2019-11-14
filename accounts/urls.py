@@ -1,9 +1,10 @@
-from django.conf.urls import url, include
+from django.urls import path, include
 
 from .views import RegistrationFormView
 
-app_name = "register_user"
+app_name = "accounts"
 
 urlpatterns = [
-    url(r'register/', RegistrationFormView.as_view(), name='register'),
+    path(r'register/', RegistrationFormView.as_view(), name='register'),
+    path(r'', include('django.contrib.auth.urls')),
 ]

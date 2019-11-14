@@ -32,3 +32,12 @@ class API_Serializer(serializers.Serializer):
     def create(self, validated_data):
         return MacModelUser.objects.create(**validated_data)
 
+
+class MACAddressSerializer(serializers.ModelSerializer):
+    mac_address = serializers.RegexField(max_length=100, regex=MacModelUser.PATTERN)
+    user = serializers.PrimaryKeyRelatedField(default=serializers.CurrentUserDefault(),
+                                              queryset=UserAccount.objects.filter(is_active=True))
+
+    class Meta:
+        model = MacModelUser
+        fields = ('mac_address', 'user')
