@@ -33,8 +33,8 @@ class ApiCreateView(APIView):
 
         try:
             if not bool(re.match(MAC_PATTERN, data)):
-                raise
-        except:
+                raise ValueError
+        except ValueError:
             content = {"error": "Mac address is not correct"}
             return Response(content, status=status.HTTP_404_NOT_FOUND)
 
@@ -57,22 +57,22 @@ class ApiInput(APIView):
         try:
             mac_address = MacModelUser.objects.get(mac_address=data)
             if not bool(re.match(MAC_PATTERN, data)):
-                raise
-        except:
+                raise ValueError
+        except (MacModelUser.DoesNotExist, ValueError) as exp:
             content = {'error': "Mac address not found"}
             return Response(content, status=status.HTTP_404_NOT_FOUND)
 
         try:
             latest_visit = Visit.objects \
-                .filter(user=mac_address.user, enter_timestamp__isnull=True) \
-                .latest('enter_timestamp')
-            if latest_visit.enter_timestamp:
-                return Response({"User in Olimp": mac_address.user.username})
-            # latest_visit.enter_timestamp = timezone.now()
-            # latest_visit.save(update_fields=['enter_timestamp'])
-        except Visit.DoesNotExist:
-            Visit.objects.create(user=mac_address.user, enter_timestamp=timezone.now())
+                .filter(user=mac_address.user, enter_timestamp__isnull=False,
+                        leave_timestamp__isnull=True).latest('leave_timestamp')
 
+            if latest_visit.enter_timestamp:
+                latest_visit.leave_timestamp = timezone.now()
+                latest_visit.save(update_fields=['leave_timestamp'])
+                raise ValueError
+        except (Visit.DoesNotExist, ValueError):
+            Visit.objects.create(user=mac_address.user, enter_timestamp=timezone.now())
         return Response({"User in Olimp": mac_address.user.username})
 
 
@@ -88,8 +88,8 @@ class OutputApi(APIView):
         try:
             mac_address = MacModelUser.objects.get(mac_address=data)
             if not bool(re.match(MAC_PATTERN, data)):
-                raise
-        except:
+                raise ValueError
+        except (MacModelUser.DoesNotExist, ValueError) as exp:
             content = {'error': "Mac address not found"}
             return Response(content, status=status.HTTP_404_NOT_FOUND)
 
