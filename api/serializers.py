@@ -5,7 +5,7 @@ from visits.models import Visit
 
 
 class VisitSerializer(serializers.ModelSerializer):
-    fullname = serializers.CharField(source='get_full_name')
+    fullname = serializers.CharField(source='get_full_name', label="ФИО")
 
     class Meta:
         model = UserAccount
