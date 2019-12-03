@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIClient
 from rest_framework.utils import json
 
 from api.models import MacModelUser
@@ -115,17 +115,22 @@ class VisitsTest(APITestCase):
         }
         self.assertEqual(json.loads(response.content), data)
 
-    # def test_create_macaddress(self):
-    #     url = '/api/mac_addr/create/'
-    #     data = {
-    #         "mac_address": "00:26:57:00:1f:02"
-    #     }
-    #
-    #     response = self.client.post(
-    #         url,
-    #         data=data,
-    #         secure={'email': 'test1@inside.olimp-union.com', 'password': 'secret'},
-    #         format='json'
-    #     )
-    #     print(response)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_create_macaddress(self):
+        url = '/api/mac_addr/create'
+        data = {
+            "mac_address": "00:26:57:00:1f:02"
+        }
+
+        user = UserAccount.objects.get(username='test1')
+        self.client = APIClient()
+        self.client.force_authenticate(user=user)
+
+
+        response = self.client.post(
+            url,
+            data=data,
+            # secure={'email': 'test1@inside.olimp-union.com', 'password': 'secret'},
+            format='json'
+        )
+        print(response)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
