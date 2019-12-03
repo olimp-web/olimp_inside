@@ -1,12 +1,16 @@
 import datetime
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect
-
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect
+from django.views.generic import DetailView
 from django.views.generic.edit import FormView
+
+from .models import ServiceDocument
+from .utils import *
 from .forms import FormRegister
 
 
@@ -35,3 +39,8 @@ class RegistrationFormView(FormView):
 #     if request.method == 'POST':
 #         if form.is_valid:
 #             username = form.cleaned_data('username')
+
+
+class PrintPage(DetailView):
+    queryset = ServiceDocument.objects.all()
+    template_name = 'documents/over_time.html'

@@ -137,7 +137,29 @@ class Profile(models.Model):
     dob = models.DateField(null=True, blank=True, verbose_name="дата рождения")
     vk_link = models.URLField(verbose_name="профиль вконтакте", blank=True, default="")
     phone_number = models.CharField(max_length=12, verbose_name="номер телефона")
+    identify_data = models.CharField(max_length=11, verbose_name="Паспортные данные", blank=True)
 
     class Meta:
         verbose_name = "профиль"
         verbose_name_plural = "профили"
+
+    def __str__(self):
+        return f"{self.surname} {self.name} {self.patronymic}"
+
+
+class ServiceDocument(models.Model):
+    TYPES = (
+        ('temp', 'на временный пропуск'),
+        ('single', 'на разовый пропуск'),
+        ('over_time', 'на проход вечером')
+    )
+
+    doc_type = models.CharField(max_length=30, choices=TYPES)
+    date = models.DateField(verbose_name="дата", help_text="Дата посещения")
+    created_at = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
+    printed_at = models.DateTimeField(verbose_name="Дата печати", blank=True, null=True)
+    guests = models.ManyToManyField('Profile', verbose_name='гости')
+
+    class Meta:
+        verbose_name = "служебная записка"
+        verbose_name_plural = "служебные записки"

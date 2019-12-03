@@ -18,7 +18,9 @@ from django.urls import path
 from django.conf.urls import include, url
 from django.conf import settings
 
+from api_core.urls import api_router
 from . import views
+from accounts.views import PrintPage
 
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
@@ -31,4 +33,6 @@ urlpatterns = [
     # url(r'people-inside/', include('accounts.urls')),
     # url(r'status/', include('accounts.urls'), name="satatus"),
     # url('auth/', include('accounts.urls')),
+    path('api/', include('api_core.urls', namespace='API')),
+    path(r'print_docs/<int:pk>/', PrintPage.as_view())
 ]

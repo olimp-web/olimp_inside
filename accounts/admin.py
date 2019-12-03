@@ -1,8 +1,14 @@
 from django.contrib import admin
+from django.contrib.admin.options import get_content_type_for_model
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext, gettext_lazy as _
-from .models import UserAccount, Profile
+from django_object_actions import DjangoObjectActions
+from django.utils import timezone
+from django.shortcuts import render
+
+from .models import UserAccount, Profile, ServiceDocument
 from api.models import MacModelUser
 
 # Register your models here.
@@ -43,5 +49,31 @@ class UserAdmin(UserAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('surname', 'name', 'patronymic', 'phone_number')
-    search_fields = ('patronymic', 'name', 'surname')
+    list_display = ['surname', 'name', 'patronymic', 'phone_number']
+
+    search_fields = ['patronymic', 'name', 'surname']
+
+
+@admin.register(ServiceDocument)
+class ServiceDocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
+    list_display = ('id', 'doc_type', 'date', 'created_at', 'printed_at')
+    list_display_links = ('date',)
+    list_filter = ('doc_type', )
+    readonly_fields = ('printed_at', 'created_at')
+
+    def print_page(self, request, obj):
+        obj.printed_at = timezone.now()
+        obj.save()
+        LogEntry.objects.log_action(user_id=request.user.pk, change_message="Печать документа",
+                                    content_type_id=get_content_type_for_model(obj).pk,
+                                    object_id=obj.pk,
+                                    object_repr=str(obj),
+                                    action_flag=1)
+        return render(request, template_name=f'documents/{obj.doc_type}.html', context={
+            "doc": obj,
+            "empty_line_counter": range(3)
+        })
+    print_page.short_description = "печать документа"
+    print_page.label = "Печать"
+
+    change_actions = ('print_page', )

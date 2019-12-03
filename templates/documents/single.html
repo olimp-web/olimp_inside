@@ -1,0 +1,7 @@
+{% extends "documents/base_document.html" %}
+
+{% block title %} Служебная записка для выдачи Разового пропуска {% endblock %}
+
+{% block main_text %}
+	<p class="all"> Прошу изготовить разовый пропуск для посещения Лаборатории ОЛИМП {{ doc.date|date:'d.m.Y' }}, по адресу Кронверкский проспект 49 следующим лицам: </p>
+{% endblock %}
