@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.admin.options import get_content_type_for_model
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext, gettext_lazy as _
@@ -52,14 +54,23 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(ServiceDocument)
 class ServiceDocumentAdmin(DjangoObjectActions, admin.ModelAdmin):
-    list_display = ('id', 'date', 'created_at', 'printed_at')
-    list_display_links = ('date', )
+    list_display = ('id', 'doc_type', 'date', 'created_at', 'printed_at')
+    list_display_links = ('date',)
+    list_filter = ('doc_type', )
     readonly_fields = ('printed_at', 'created_at')
 
     def print_page(self, request, obj):
         obj.printed_at = timezone.now()
         obj.save()
-        return render(request, template_name='documents/over_time.html', context={"doc": obj})
+        LogEntry.objects.log_action(user_id=request.user.pk, change_message="Печать документа",
+                                    content_type_id=get_content_type_for_model(obj).pk,
+                                    object_id=obj.pk,
+                                    object_repr=str(obj),
+                                    action_flag=1)
+        return render(request, template_name=f'documents/{obj.doc_type}.html', context={
+            "doc": obj,
+            "empty_line_counter": range(3)
+        })
     print_page.short_description = "печать документа"
     print_page.label = "Печать"
 

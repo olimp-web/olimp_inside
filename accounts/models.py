@@ -148,6 +148,13 @@ class Profile(models.Model):
 
 
 class ServiceDocument(models.Model):
+    TYPES = (
+        ('temp', 'на временный пропуск'),
+        ('single', 'на разовый пропуск'),
+        ('over_time', 'на проход вечером')
+    )
+
+    doc_type = models.CharField(max_length=30, choices=TYPES)
     date = models.DateField(verbose_name="дата", help_text="Дата посещения")
     created_at = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
     printed_at = models.DateTimeField(verbose_name="Дата печати", blank=True, null=True)

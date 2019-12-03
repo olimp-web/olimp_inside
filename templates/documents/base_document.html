@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        body { margin: 30px 20px 15px 70px; font-family: TimesNewRoman; }
+	    p.all { text-indent: 50px; }
+	    th, td	{ text-align: center; }
+        td  { text-indent: 0; text-align-last: center; }
+	    .name{ float: right; }
+	    .first{ text-align-last: right; margin-bottom: 50px; }
+	    .second{ text-align-last: center; }
+    </style>
+</head>
+<body>
+<p class="first"> Отделу организации пропускного режима </p>
+<p class="second"> Служебная записка </p>
+{% block main_text %}{% endblock %}
+{% block user_table %}
+    <table border="1" cellpadding="0" cellspacing="0" cols="5" align="center" style="margin-bottom: 50;">
+				<tbody><tr>
+					<td width="120" height="50"><b>Фамилия</b>
+					</td><td width="120"> <b>Имя</b>
+					</td><td width="120"> <b>Отчество</b>
+					</td><td width="120"> <b>Серия номер паспорта</b>
+					</td><td width="120"> <b>Мобильный телефон</b>
+				</td></tr>
+				{% for guest in doc.guests.all %}
+					<tr>
+						<td height="40">{{ guest.surname }}</td>
+						<td>{{ guest.name }}</td>
+						<td>{{ guest.patronymic }}</td>
+						<td>{{ guest.identify_data }}</td>
+						<td>{{ guest.phone_number }}</td>
+					</tr>
+				{% endfor %}
+                {% for i in empty_line_counter %}
+                    <tr>
+                        <td height="40">
+                        </td><td>
+                        </td><td>
+                        </td><td>
+                        </td><td>
+                    </td></tr>
+                {% endfor %}
+		</tbody></table>
+{% endblock %}
+{% block bottom %}
+        <p class="all">  Ответственный за обеспечение чистоты и порядка при нахождении данных лиц на территории Университета ИТМО: </p>
+		<p style="margin-bottom: 50;" class="all">  Бодров Кирилл Юрьевич. Моб.тел.: +7-911-755-54-36. </p>
+		<span style="margin-bottom: 50;">  Зав.лаб.«ОЛИМП» </span> <span class="name"> Бодров К.Ю.</span>
+		<p style="text-indent:" 0px;=""> {{ doc.printed_at|date:"d.m.Y" }} </p>
+{% endblock %}
+
+<script type="text/javascript">window.print()</script>
+</body>
+</html>
