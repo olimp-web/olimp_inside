@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.shortcuts import render
 
 from .models import UserAccount, Profile, ServiceDocument
-
+from api.models import MacModelUser
 
 # Register your models here.
 
@@ -17,13 +17,19 @@ from .models import UserAccount, Profile, ServiceDocument
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = UserAccount
-        fields = ['username', 'email', 'profile']
+        fields = ('username', 'email', 'profile')
+
+
+class MACAddressInline(admin.StackedInline):
+    model = MacModelUser
+    field = ('mac_address', )
+    extra = 1
 
 
 @admin.register(UserAccount)
 class UserAdmin(UserAdmin):
-    list_display = ['username', 'email', 'get_full_name']
-    search_fields = ['username', 'email', 'patronymic', 'name', 'surname']
+    list_display = ('username', 'email', 'get_full_name')
+    search_fields = ('username', 'email', 'patronymic', 'name', 'surname')
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
         # (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
@@ -38,6 +44,7 @@ class UserAdmin(UserAdmin):
             'fields': ('username', 'email', 'profile', 'password1', 'password2'),
         }),
     )
+    inlines = (MACAddressInline, )
 
 
 @admin.register(Profile)
@@ -45,11 +52,6 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ['surname', 'name', 'patronymic', 'phone_number']
 
     search_fields = ['patronymic', 'name', 'surname']
-    #
-    # def print_doc(self, request, queryset):
-    #     return render(request, 'documents/over_time.html', context={
-    #         "profiles": queryset
-    #     })
 
 
 @admin.register(ServiceDocument)

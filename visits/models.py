@@ -7,7 +7,7 @@ from accounts.models import AccountManager, UserAccount
 class Visit(models.Model):
     user = models.ForeignKey('accounts.UserAccount', on_delete=models.CASCADE, related_name='visits')
     enter_timestamp = models.DateTimeField(null=True, blank=True, verbose_name="время входа")
-    leave_timestamp = models.DateTimeField(null=True, blank=True, verbose_name="время вЫхода")
+    leave_timestamp = models.DateTimeField(null=True, blank=True, verbose_name="время выхода")
 
     class Meta:
         verbose_name = "посещение"

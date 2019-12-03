@@ -24,11 +24,12 @@ from accounts.views import PrintPage
 
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
-
+# test@reh.com
 urlpatterns = [
     url(r'^gates/', include('visits.urls', 'visits')),
     path('admin/', admin.site.urls),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'accounts/', include('accounts.urls', 'accounts')),
+    url(r'api/', include('api.urls')),
     # url(r'people-inside/', include('accounts.urls')),
     # url(r'status/', include('accounts.urls'), name="satatus"),
     # url('auth/', include('accounts.urls')),

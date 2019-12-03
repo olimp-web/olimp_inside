@@ -19,13 +19,13 @@
                 <a href="">
                     Sign in
                 </a>
-                <a href="">
+                <a href="{% url 'accounts:register' %}">
                     Sign UP
                 </a>
             </div>
-            <form action="{% url 'login'%}?next={{ next }}" method="post">
-                {% csrf_token%}
-                <label for="username">Username</label>
+            <form action="{% url 'accounts:login'%}?next={{ next }}" method="post">
+                {% csrf_token %}
+                <label for="username">Email</label>
                 <!--<input type="email" name="username" id="name" value="{{ form.username.value|default_if_none:"" }}">-->
                 {{ form.username }}
                 <label for="pwd">Password</label>
@@ -34,7 +34,7 @@
                 <div class="check">
                     {# Assumes you setup the password_reset view in your URLconf #}
                     <p>
-                        <a href="{% url 'password_reset' %}">Lost password?</a>
+                        <a href="{% url 'accounts:password_reset' %}">Lost password?</a>
                         <a href="{% url 'visits:status' %}" class="pl-5">Check status</a>
                     </p>
                 </div>
