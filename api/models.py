@@ -6,7 +6,7 @@ from accounts.models import UserAccount
 
 
 class MacModelUser(models.Model):
-    PATTERN = r"(([0-9A-Fa-f]{2}[-:.]){5}[0-9A-Fa-f]{2})|(([0-9A-Fa-f]{4}\\.){2}[0-9A-Fa-f]{4})"
+    PATTERN = r"(([0-9A-Fa-f]{2}[-:._]){5}[0-9A-Fa-f]{2})|(([0-9A-Fa-f]{4}\\.){2}[0-9A-Fa-f]{4})"
 
     mac_address = models.CharField(max_length=100, verbose_name="Mac-адресс пользователя")
     user = models.ForeignKey('accounts.UserAccount', on_delete=models.CASCADE, verbose_name="Пользователь", related_name='user_mac_address')
