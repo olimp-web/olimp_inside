@@ -131,6 +131,12 @@ class UserAccount(BaseAccount):
 
 
 class Profile(models.Model):
+    PATH = ''
+    GENDER_TYPE = (
+        ('m', 'Мужской'),
+        ('w', 'Женский')
+    )
+
     surname = models.CharField(max_length=100, verbose_name="Фамилия", null=False, blank=False)
     name = models.CharField(max_length=100, verbose_name="Имя", null=False, blank=False)
     patronymic = models.CharField(max_length=100, verbose_name="Отчество", null=False, blank=False)
@@ -138,6 +144,8 @@ class Profile(models.Model):
     vk_link = models.URLField(verbose_name="профиль вконтакте", blank=True, default="")
     phone_number = models.CharField(max_length=12, verbose_name="номер телефона")
     identify_data = models.CharField(max_length=11, verbose_name="Паспортные данные", blank=True)
+    photo = models.ImageField(upload_to=PATH, blank=True, null=True, verbose_name='Фото пользователя')
+    gender = models.CharField(max_length=1, blank=True, null=True, choices=GENDER_TYPE, verbose_name='Пол')
 
     class Meta:
         verbose_name = "профиль"
