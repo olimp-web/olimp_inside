@@ -47,8 +47,8 @@ INSTALLED_APPS = [
 
     'django_object_actions',
     'rest_framework',
+    'knowledges',
 
-    'rest_framework',
     'accounts',
     'visits',
     'api',
@@ -132,6 +132,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "../ui_kit2/public/")
 ]
 
 ADMIN_SITE_HEADER = "OLIMP"

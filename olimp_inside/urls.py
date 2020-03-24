@@ -22,7 +22,6 @@ from api_core.urls import api_router
 from . import views
 from accounts.views import PrintPage
 
-
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 # test@reh.com
 urlpatterns = [
@@ -34,5 +33,6 @@ urlpatterns = [
     # url(r'status/', include('accounts.urls'), name="satatus"),
     # url('auth/', include('accounts.urls')),
     path('api/', include('api_core.urls', namespace='API')),
-    path(r'print_docs/<int:pk>/', PrintPage.as_view())
+    path(r'print_docs/<int:pk>/', PrintPage.as_view()),
+    path('', views.MainPageView.as_view())
 ]

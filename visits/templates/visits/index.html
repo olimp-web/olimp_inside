@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content%}
-    <div class="container">
+    <main class="main wrapper-flex">
+
         <div class="text-right mt-3 mb-5">
             <div class="btn-group" role="group">
                 <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -12,8 +13,8 @@
                     <a href="{% url 'visits:close' %}" class="dropdown-item ">Get out of Olimp</a>
                 </div>
             </div>
-            <a href="{% url 'visits:status' %}" class="btn btn-success">Status</a>
-            <a href="{% url 'accounts:logout'%}" class="btn btn-danger">Log out</a>
+<!--            <a href="{% url 'visits:status' %}" class="btn btn-success">Status</a>-->
+<!--            <a href="{% url 'accounts:logout'%}" class="btn btn-danger">Log out</a>-->
         </div>
 
         {% if error %}
@@ -21,36 +22,31 @@
                             {{ error }}
                         </div>
         {% endif %}
-
-        <div class="list-group col-6">
-            {% for user in users %}
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">{{ user.get_full_name }}</h5>
-                      <small>В лаборатории с {{ user.last_entrance }}</small>
+        {% for user in users %}
+            <div class="member-card">
+                <div class="member-card__about">
+                    <div class="member-card__photo member-card__photo_1 center center"></div>
+                    <h2 class="member-card__name">{{ user.get_full_name }}</h2>
+                    <div class="member-card__geo center">
+                        <p>{{ user.profile.get_lab_position_display }}</p>
+                        <div class="member-card__cab">
+                            <div class="geo"><div></div></div>
+                            ауд. 511
+                        </div>
                     </div>
-                </a>
-            {% endfor %}
-        </div>
+                </div>
+                <div class="tegs center">
+                    <div class="teg teg__text">3D-печать</div>
+                    <div class="teg teg__text">3D-печать</div>
+                    <div class="teg teg__text">3D-печать</div>
+                    <div class="teg teg__text">3D-печать</div>
+                    <div class="teg teg__text">3D-печать</div>
+                    <div class="teg-other teg teg__text">12+</div>
+                </div>
 
-{#        <div class="row">#}
-{#            {% for user in users %}#}
-{#                <div class="col-6 ">#}
-{#                    <div class="card m-1">#}
-{#                        <div class="card-header">#}
-{#                            <span>{{user.get_full_name}}</span>#}
-{#                        </div>#}
-{#                        <div class="card-body">#}
-{#                            <h5 class="card-title"></h5>#}
-{#                            <p class="card-text">body</p>#}
-{#                            <p>Last entrance: <span>#}
-{#                                {{user.last_entrance}}#}
-{#                            </span></p>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{##}
-{#            {% endfor %}#}
-{#        </div>#}
-    </div>
+                <a class="button">просмотреть профиль</a>
+                <hr align="center" width="70" size="1"/>
+            </div>
+        {% endfor %}
+    </main>
 {% endblock%}

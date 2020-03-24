@@ -139,6 +139,20 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=12, verbose_name="номер телефона")
     identify_data = models.CharField(max_length=11, verbose_name="Паспортные данные", blank=True)
 
+    POSITIONS = (
+        ('boss', 'Руководитель'),
+        ('master', 'Мастер'),
+        ('member', 'Участник'),
+        ('guest', 'Гость')
+    )
+    lab_position = models.CharField(max_length=30, choices=POSITIONS, default='guest')
+    ROOMS = (
+        ('501', 'Лекционная'),
+        ('511', 'Коворкинг'),
+        ('512', 'Мастерская'),
+    )
+    lab_location = models.CharField(max_length=3, choices=ROOMS, blank=True, null=True)
+
     class Meta:
         verbose_name = "профиль"
         verbose_name_plural = "профили"
