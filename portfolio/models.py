@@ -17,7 +17,14 @@ class SkillProfile(Profile):
                                   null=True,
                                   on_delete=models.CASCADE,
                                   verbose_name='Образование')
-    area = models.ManyToManyField(to='Skills', verbose_name='Проффессиональная сфера')
+    area = models.ManyToManyField(to='Skills',
+                                  blank=True,
+                                  related_name='area_user',
+                                  verbose_name='Проффессиональная сфера')
+    skills_user = models.ManyToManyField(to='Skills',
+                                         blank=True,
+                                         related_name='skill_user',
+                                         verbose_name='Навыки пользоателя')
     interests = models.TextField(blank=True,
                                  null=True,
                                  verbose_name='Интересы пользователя')
@@ -80,6 +87,9 @@ class TypeSkill(models.Model):
                              unique=True,
                              verbose_name='Название типа навыка')
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name = 'Тип навыка'
         verbose_name_plural = 'Типы навыка'
@@ -90,6 +100,9 @@ class TypeRelationship(models.Model):
         max_length=250,
         unique=True,
         verbose_name='Название типа связи')
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = 'Тип связи'
@@ -118,8 +131,8 @@ class Methods(models.Model):
         return self.content
 
     class Meta:
-        verbose_name = 'Метод'
-        verbose_name_plural = 'Методы'
+        verbose_name = 'Методика'
+        verbose_name_plural = 'Методики'
 
 
 class Assessment(models.Model):
@@ -133,7 +146,7 @@ class Assessment(models.Model):
                                validators=[MinValueValidator(0)])
 
     def __str__(self):
-        return self.rate
+        return str(self.rate)
 
     class Meta:
         verbose_name = 'Оценка'
@@ -164,15 +177,15 @@ class Project(models.Model):
                               blank=True,
                               null=True,
                               verbose_name='Путь к фотографии')
-    type_project = models.CharField(max_length=1,
-                                    choices=TYPE_PROJECT,
-                                    default='1',
-                                    verbose_name='Тип проектв')
+    is_visible = models.CharField(max_length=1,
+                                  choices=TYPE_PROJECT,
+                                  default='1',
+                                  verbose_name='Тип проектв')
     status_project = models.CharField(max_length=1,
                                       choices=STATUS_PROJECT,
                                       default='1',
                                       verbose_name='Статус проекта')
-    published = models.DateTimeField(auto_created=True,
+    published = models.DateTimeField(auto_now_add=True,
                                      verbose_name='Дата добавления')
 
     class Meta:
