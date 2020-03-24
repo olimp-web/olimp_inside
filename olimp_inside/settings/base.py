@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'accounts',
     'visits',
     'api',
+    'knowledges',
+    'portfolio',
 ]
 
 MIDDLEWARE = [
@@ -134,6 +136,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "../ui_kit2/public/")
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ADMIN_SITE_HEADER = "OLIMP"
 
