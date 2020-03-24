@@ -10,7 +10,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import FormView
 
 from .models import ServiceDocument
-from .utils import *
+# from .utils import *
 from .forms import FormRegister
 
 

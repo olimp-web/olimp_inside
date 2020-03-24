@@ -46,12 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_object_actions',
-    'rest_framework',
 
     'rest_framework',
     'accounts',
     'visits',
     'api',
+    'knowledges',
+    'portfolio',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ADMIN_SITE_HEADER = "OLIMP"
 
