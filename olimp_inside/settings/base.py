@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'accounts',
     'visits',
     'api',
-    'knowledges'
+    'knowledges',
+    'portfolio',
 ]
 
 
@@ -133,6 +134,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ADMIN_SITE_HEADER = "OLIMP"
 
