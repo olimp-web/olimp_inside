@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^gates/', include('visits.urls', 'visits')),
     path('admin/', admin.site.urls),
     url(r'accounts/', include('accounts.urls', 'accounts')),
-    url(r'api/', include('api.urls')),
+    # url(r'api/', include('api.urls')),
     # url(r'people-inside/', include('accounts.urls')),
     # url(r'status/', include('accounts.urls'), name="satatus"),
     # url('auth/', include('accounts.urls')),

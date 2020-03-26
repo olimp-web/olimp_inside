@@ -10,7 +10,7 @@ visits_api_urls = (
 )
 
 
-urlpatterns = [
-    path(r'mac_addr/create', ApiCreateView.as_view()),
-    path(r'visits/', include((visits_api_urls, 'visits'), namespace="API/visits")),
-]
+# urlpatterns = [
+#     path(r'mac_addr/create', ApiCreateView.as_view()),
+#     path(r'visits/', include((visits_api_urls, 'visits'), namespace="API/visits")),
+# ]
