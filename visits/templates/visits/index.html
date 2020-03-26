@@ -2,50 +2,41 @@
 
 {% block content%}
     <main class="main wrapper-flex">
-
-        <div class="text-right mt-3 mb-5">
-            <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Availability in Olympus
-                </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a href="{% url 'visits:open' %}" class="dropdown-item">Entrance in Olimp</a>
-                    <a href="{% url 'visits:close' %}" class="dropdown-item ">Get out of Olimp</a>
-                </div>
-            </div>
-<!--            <a href="{% url 'visits:status' %}" class="btn btn-success">Status</a>-->
-<!--            <a href="{% url 'accounts:logout'%}" class="btn btn-danger">Log out</a>-->
-        </div>
-
-        {% if error %}
+        <div class="card top-toolbar">
+            {% if error %}
                         <div class="alert alert-danger" role="alert">
                             {{ error }}
-                        </div>
-        {% endif %}
+                            </div>
+            {% endif %}
+            <a class="btn" href="{% url 'visits:open' %}">Отметить вход</a>
+            <a class="btn" href="{% url 'visits:open' %}">Отметить выход</a>
+            <a href="{% url 'visits:status' %}" class="btn btn-success">Статус</a>
+        </div>
+        <h1 class="page-header">В данный момент в лаборатории:</h1>
         {% for user in users %}
             <div class="member-card">
                 <div class="member-card__about">
-                    <div class="member-card__photo member-card__photo_1 center center"></div>
-                    <h2 class="member-card__name">{{ user.get_full_name }}</h2>
+                    <img class="member-card__photo member-card__photo_2 center" src="{{ user.profile.photo.url }}" alt="{{ user.get_fullname }}">
+                    <h2 class="member-card__name">{{ user.profile.name }} {{ user.profile.surname }}</h2>
                     <div class="member-card__geo center">
-                        <p>{{ user.profile.get_lab_position_display }}</p>
-                        <div class="member-card__cab">
-                            <div class="geo"><div></div></div>
-                            ауд. 511
-                        </div>
+                        <p class="member-card__position">{{ user.profile.orgprofile.get_position_display }}</p>
+                        {% if user.profile.orgprofile %}
+                            <div class="member-card__cab">
+                                <span class="geo"></span>
+                                {{ user.profile.orgprofile.get_room_display }}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="tegs center">
-                    <div class="teg teg__text">3D-печать</div>
-                    <div class="teg teg__text">3D-печать</div>
-                    <div class="teg teg__text">3D-печать</div>
-                    <div class="teg teg__text">3D-печать</div>
-                    <div class="teg teg__text">3D-печать</div>
-                    <div class="teg-other teg teg__text">12+</div>
+                <div class="tags center">
+                    <div class="tag tag__text">3D-печать</div>
+                    <div class="tag tag__text">3D-печать</div>
+                    <div class="tag tag__text">3D-печать</div>
+                    <div class="tag-other tag tag__text">12+</div>
                 </div>
 
-                <a class="button">просмотреть профиль</a>
-                <hr align="center" width="70" size="1"/>
+                <a href="#"class="button">просмотреть профиль</a>
+                <hr align="center" width="70" size="1" color="#37464b" />
             </div>
         {% endfor %}
     </main>

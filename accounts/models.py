@@ -142,26 +142,28 @@ class Profile(models.Model):
     identify_data = models.CharField(max_length=11, verbose_name="Паспортные данные", blank=True)
     photo = models.ImageField(upload_to=PATH, blank=True, null=True, verbose_name='Фото пользователя')
 
-    POSITIONS = (
-        ('boss', 'Руководитель'),
-        ('master', 'Мастер'),
-        ('member', 'Участник'),
-        ('guest', 'Гость')
-    )
-    lab_position = models.CharField(max_length=30, choices=POSITIONS, default='guest')
-    ROOMS = (
-        ('501', 'Лекционная'),
-        ('511', 'Коворкинг'),
-        ('512', 'Мастерская'),
-    )
-    lab_location = models.CharField(max_length=3, choices=ROOMS, blank=True, null=True)
-
     class Meta:
         verbose_name = "профиль"
         verbose_name_plural = "профили"
 
     def __str__(self):
         return f"{self.surname} {self.name} {self.patronymic}"
+
+
+class OrgProfile(Profile):
+    POSITIONS = (
+        ('boss', 'Руководитель'),
+        ('master', 'Мастер'),
+        ('member', 'Участник'),
+        ('guest', 'Гость')
+    )
+    position = models.CharField(max_length=30, choices=POSITIONS, default='guest')
+    ROOMS = (
+        ('501', 'Лекционная'),
+        ('511', 'Коворкинг'),
+        ('512', 'Мастерская'),
+    )
+    room = models.CharField(max_length=3, choices=ROOMS, blank=True, null=True)
 
 
 class ServiceDocument(models.Model):

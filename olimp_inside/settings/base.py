@@ -47,7 +47,6 @@ INSTALLED_APPS = [
 
     'django_object_actions',
     'rest_framework',
-    'knowledges',
 
     'accounts',
     'visits',

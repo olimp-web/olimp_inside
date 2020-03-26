@@ -21,6 +21,7 @@ from django.conf import settings
 from api_core.urls import api_router
 from . import views
 from accounts.views import PrintPage
+from django.conf.urls.static import static
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 # test@reh.com
@@ -36,3 +37,5 @@ urlpatterns = [
     path(r'print_docs/<int:pk>/', PrintPage.as_view()),
     path('', views.MainPageView.as_view())
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

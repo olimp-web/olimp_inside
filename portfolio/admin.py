@@ -23,7 +23,7 @@ class RelationshipsAdmin(admin.ModelAdmin):
 
 @admin.register(Skills, TypeSkill)
 class SkillsAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    # list_display = ['name']
     list_per_page = 10
 
 

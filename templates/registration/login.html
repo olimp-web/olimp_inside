@@ -1,20 +1,16 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block content %}
-    <section class="background-login">
-        {% if form.errors %}
-        <p>Your username and password didn't match. Please try again.</p>
-        {% endif %}
-
-        {% if next %}
-            {% if user.is_authenticated %}
-            <p style="color: #dd9">Your account doesn't have access to this page. To proceed,
-            please login with an account that has access.</p>
-            {% else %}
-            <p style="color: #dd9">Please login to see this page.</p>
-            {% endif %}
-        {% endif %}
-        <div class="auth-form">
+    <div class="wrapper wrapper--single-card auth-bg">
+{#        {% if next %}#}
+{#            {% if user.is_authenticated %}#}
+{#            <p style="color: #dd9">Your account doesn't have access to this page. To proceed,#}
+{#            please login with an account that has access.</p>#}
+{#            {% else %}#}
+{#            <p style="color: #dd9">Please login to see this page.</p>#}
+{#            {% endif %}#}
+{#        {% endif %}#}
+        <main class="card login-card auth-form">
             <div class="auth">
                 <a href="">
                     Sign in
@@ -23,23 +19,43 @@
                     Sign UP
                 </a>
             </div>
-            <form action="{% url 'accounts:login'%}?next={{ next }}" method="post">
+            <div class="login-card__logo">
+                <img src="{% static 'images/logo_v1.png' %}" alt="">
+            </div>
+            <div class="card__header">
+                <h2>Вход</h2>
+            </div>
+            <form class="form" action="{% url 'accounts:login'%}?next={{ next }}" method="post">
+                {% if form.errors %}
+                    <div class="form__errors">{{ form.non_field_errors }}</div>
+                {% endif %}
                 {% csrf_token %}
-                <label for="username">Email</label>
-                <!--<input type="email" name="username" id="name" value="{{ form.username.value|default_if_none:"" }}">-->
-                {{ form.username }}
-                <label for="pwd">Password</label>
-                <!--<input type="password" id="pwd" value="{{ form.password.value|default_if_none:"" }}">-->
-                {{ form.password }}
+{#                <label for="username">Email</label>#}
+{#                <!--<input type="email" name="username" id="name" value="{{ form.username.value|default_if_none:"" }}">-->#}
+{#                {{ form.username }}#}
+{#                <label for="pwd">Password</label>#}
+{#                <!--<input type="password" id="pwd" value="{{ form.password.value|default_if_none:"" }}">-->#}
+{#                {{ form.password }}#}
+                <div class="field-group">
+                    <label for="email_input" class="field-label">Email</label>
+                    <input name="username" id="email_input" type="email" class="field" required="required"
+                           placeholder="your@email.com" value="{{ form.username.value|default_if_none:'' }}">
+                </div>
+                <div class="field-group">
+                    <label for="pass_input" class="field-label">Пароль</label>
+                    <input name="password" id="pass_input" type="password" required="required"
+                           class="field" placeholder="******">
+                </div>
                 <div class="check">
                     {# Assumes you setup the password_reset view in your URLconf #}
                     <p>
-                        <a href="{% url 'accounts:password_reset' %}">Lost password?</a>
-                        <a href="{% url 'visits:status' %}" class="pl-5">Check status</a>
+                        <a class="btn-link" href="{% url 'accounts:password_reset' %}">Забыли пароль?</a>
                     </p>
                 </div>
-                <input type="submit" value="Sign in" class="btn" value="{{ next }}">
+                <div class="action-row">
+                    <button type="submit" name="next" value="{{ next }}" class="btn">Войти</button>
+                </div>
             </form>
-        </div>
-    </section>
+        </main>
+    </div>
 {% endblock %}

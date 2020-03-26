@@ -19,7 +19,7 @@ class FormRegister(UserCreationForm):
         super(FormRegister, self).__init__(*args, **kwargs)
 
         # for item in self.fields:
-        #     self.fields[item].widget = forms.TextInput(attrs={'class':'form-control'})
+        #     self.fields[item].widget = forms.scss.TextInput(attrs={'class':'form-control'})
 
         self.fields['username'].widget = forms.TextInput(attrs={'class': 'form-control',})
         self.fields['password1'].widget = forms.PasswordInput(attrs={'class': 'form-control', })

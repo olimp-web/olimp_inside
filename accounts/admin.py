@@ -8,7 +8,7 @@ from django_object_actions import DjangoObjectActions
 from django.utils import timezone
 from django.shortcuts import render
 
-from .models import UserAccount, Profile, ServiceDocument
+from .models import UserAccount, OrgProfile, ServiceDocument, Profile
 from api.models import MacModelUser
 
 # Register your models here.
@@ -31,7 +31,7 @@ class UserAdmin(UserAdmin):
     list_display = ('username', 'email', 'get_full_name')
     search_fields = ('username', 'email', 'patronymic', 'name', 'surname')
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password')}),
+        (None, {'fields': ('username', 'email', 'password', 'profile')}),
         # (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
@@ -47,8 +47,8 @@ class UserAdmin(UserAdmin):
     inlines = (MACAddressInline, )
 
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
+@admin.register(Profile, OrgProfile)
+class OrgProfileAdmin(admin.ModelAdmin):
     list_display = ['surname', 'name', 'patronymic', 'phone_number']
 
     search_fields = ['patronymic', 'name', 'surname']
