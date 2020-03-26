@@ -147,7 +147,7 @@ class Profile(models.Model):
         verbose_name_plural = "профили"
 
     def __str__(self):
-        return f"{self.surname} {self.name} {self.patronymic}"
+        return "{surname} {name} {patronymic}".format(surname=self.surname, name=self.name, patronymic=self.patronymic)
 
 
 class OrgProfile(Profile):

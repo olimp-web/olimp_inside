@@ -1,6 +1,6 @@
 from .base import *
 
-DEBUG = False
-STATIC_ROOT = "/srv/olimp-projects/olimp-inside/public/static/"
+DEBUG = True
+STATIC_ROOT = "/srv/olimp-inside/public/static/"
 
-ALLOWED_HOSTS = ["olimp2018.enhancelab.ru", ]
+ALLOWED_HOSTS = ["olimp2018.enhancelab.ru", "192.168.10.4", "inside.olimp-union.com"]
