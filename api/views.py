@@ -81,7 +81,7 @@ class OutputByMACView(APIView):
 
     def post(self, request):
         data = request.data.get('mac_address')
-
+        print(data)
         try:
             mac_address = MacModelUser.objects.get(mac_address=data)
         except MacModelUser.DoesNotExist:
@@ -96,7 +96,8 @@ class OutputByMACView(APIView):
             latest_visit.save(update_fields=['leave_timestamp'])
             return Response({"User logged out": mac_address.user.username})
         except Visit.DoesNotExist:
-            content = {'error': "Mac address not found"}
+            print("breakpoint")
+            content = {'error': "Opened visit not found"}
             return Response(content, status=status.HTTP_404_NOT_FOUND)
 
         # data_admin

@@ -47,12 +47,12 @@ INSTALLED_APPS = [
 
     'django_object_actions',
     'rest_framework',
-
-    'rest_framework',
     'accounts',
     'visits',
     'api',
+    'knowledges'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
