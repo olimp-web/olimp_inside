@@ -16,7 +16,11 @@
         {% for user in users %}
             <div class="member-card">
                 <div class="member-card__about">
-                    <img class="member-card__photo member-card__photo_2 center" src="{{ user.profile.photo.url }}" alt="{{ user.get_fullname }}">
+                    {% if user.profile.photo %}
+                        <img class="member-card__photo member-card__photo_2 center" src="{{ user.profile.photo.url }}" alt="{{ user.get_fullname }}">
+                    {% else %} 
+                        <img class="member-card__photo member-card__photo_2 center" src="" alt="{{ user.get_fullname }}">
+                    {% endif %}
                     <h2 class="member-card__name">{{ user.profile.name }} {{ user.profile.surname }}</h2>
                     <div class="member-card__geo center">
                         <p class="member-card__position">{{ user.profile.orgprofile.get_position_display }}</p>
