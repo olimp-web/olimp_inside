@@ -1,19 +1,22 @@
+import jwt
+from django.conf import settings
+from django.contrib.auth import user_logged_in
 from django.shortcuts import render
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import MacModelUser
 from api.serializers import (
     API_Serializer,
     VisitDataSerializer,
-    MACAddressSerializer
+    MACAddressSerializer,
 )
 from visits.models import Visit, UserAccount
 from django.utils import timezone
 from rest_framework.pagination import LimitOffsetPagination
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from rest_framework.filters import SearchFilter
 # import logging
@@ -22,6 +25,60 @@ from rest_framework.filters import SearchFilter
 # logger = logging.getLogger(__name__ + ".log")
 # logging.basicConfig(level=logging.DEBUG, )
 # {"mac_address": "00:26:57:00:1f:02"}
+
+class AuthentificationTokenView(APIView):
+    permission_classes = [AllowAny, ]
+
+    def get(self, request):
+        res = {'status': 'Authentification Token View'}
+        return Response(res, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        try:
+            email = request.data['email']
+            password = request.data['password']
+
+            user = UserAccount.objects.get(email=email)
+            if user:
+                try:
+                    payload = {
+                        'email': user.email,
+                        'name': user.get_short_name(),
+                        # 'photo': user.profile.photo,
+                    }
+                    token = jwt.encode(payload, settings.SECRET_KEY)
+
+                    user_details = {
+                        'name': user.get_full_name(),
+                        'token': token,
+                    }
+                    return Response(user_details, status=status.HTTP_200_OK)
+                except Exception as err:
+                    raise err
+            else:
+                res = {'error': 'can not authenticate with the given credentials or the account has been deactivated'}
+                return Response(res, status=status.HTTP_403_FORBIDDEN)
+        except ObjectDoesNotExist:
+            res = {'error': 'please provide a email and a password',
+                   'email': email,
+                   'password': password}
+            return Response(res, status=status.HTTP_204_NO_CONTENT)
+
+
+class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = VisitDataSerializer
+
+    def get(self, request):
+        serializer = self.serializer_class(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, *args, **kwargs):
+        serializer_data = request.data.get('user', {})
+
+        serializer = VisitDataSerializer(request.user, data=serializer_data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ApiCreateView(APIView):
