@@ -116,6 +116,9 @@ class Relationships(models.Model):
                                           on_delete=models.CASCADE,
                                           verbose_name='Тип связи')
 
+    def __str__(self):
+        return self.type_relationship
+
     class Meta:
         verbose_name = 'Связь'
         verbose_name_plural = 'Связи'
