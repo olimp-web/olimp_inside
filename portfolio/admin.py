@@ -37,7 +37,7 @@ class SkillsAdmin(admin.ModelAdmin):
     list_display = ['name', 'approved', 'type_skill']
     list_display_links = ['name', 'approved', 'type_skill']
     search_fields = ['name', 'type_skill']
-    list_filter = ['approved']
+    list_filter = ['name', 'approved']
     list_per_page = 20
 
 
